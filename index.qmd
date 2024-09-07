@@ -2,7 +2,7 @@
 title: "Homework: Finding Your Way in R and Python"
 execute:
   error: true
-author: "Your Name"
+author: "Dhanushka Sanjeewa"
 output: html_document
 ---
 
@@ -18,7 +18,12 @@ Consider the 6 counting words examples in the [textbook module](https://srvander
 
 ---
 
-Replace this line of text with your 2-3 sentences about script-mode, interactive mode, and command-line mode in R and Python
+
+**Interactive mode** : In this mode, we run codes line by line. This might be time consuming if you have lots of lines of code, but its really helpful in debugging as we will be able to identify the line that produces the error by running the code line by line.
+
+**Script mode** : In this mode we run an entire script (all the codes) at once. This method is more useful when you have to repeatedly do the same task over and over again.
+
+**Terminal mode** : In this mode, we directly get the computer to run the scripts without using any environment like R, python and etc. In order to use the terminal mode, 1st we need to set up the relevant environment (R/ pyhton) to the system path. 
 
 ---
 
@@ -34,9 +39,27 @@ $$a^2 + b^2 = c^2$$
 Use the chunk below to define variables $a$, $b$, and $c$, where you define values (of your choice) for $a$ and $b$. Based on the choice of $a$ and $b$, determine $c$ using the mathematical formula. You may need to find the square root function in R to make this work.
 
 ```{r pythagorean-theorem-r}
-# Your pythagorean theorem code goes here
+# Your pythagorean theorem code goes here (Using R)
+a = 12
+b = 5
+
+c = sqrt(a^2 +b^2)
+print(c)
 
 ```
+```{python}
+
+##Your pythagorean theorem code goes here (Using python)
+
+a = 12
+b = 5
+
+import math
+c = math.sqrt(a**2 + b**2)
+print(c)
+
+```
+
 
 ## Quadratic Formula in Python
 
@@ -45,9 +68,35 @@ $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
 Use the chunk below to define variables $a$, $b$, and $c$, and then define $x1$ and $x2$, the possible values for $x$. You may find it helpful to define a few additional variables, such as the value of the discriminant $\sqrt{b^2 - 4ac}$, to make it easier to calculate the results. 
 
 ```{python quad-formula-py}
-# Your quadratic formula code goes here
+# Your quadratic formula code goes here (Using python)
+
+#Create 3 numbers 
+a=2
+b=3
+c=1
+
+import math  ## import the math library
+DS = math.sqrt((b**2) -(4*a*c))  ##Discriminant_part
+x1 = (-b + DS)/(2*a)
+x2 = (-b - DS)/(2*a)
+
+print("solutions are:", "X1 =" ,x1, "and X2 =", x2)
 
 ```
+
+```{r}
+# Your quadratic formula code goes here (R)
+
+a = 2; b = 3; c = 1;
+DS = sqrt(b^2 - 4*a*c) # calculates the Discriminant factor
+
+x1 = (-b + DS)/(2*a)
+x2 = (-b - DS)/(2*a)
+
+cat("the solutions are:", "x1 = ", x1 , "and x2 = ", x2)
+
+```
+
 
 # Debugging practice
 
@@ -74,11 +123,68 @@ salary
 
 ------------------------------------------------------------------------
 
-The problem with the data is:
+The problem with the data is: The variable "Salary" has an entity that is recorded with a $ sing and a comma which makes it a "String" value.
 
 Here is how I solved the problem:
+
 
 ```{r cleaning-the-data-r}
 # Your implementation code goes here
 
+#### Changed the code of generating the graph by adding the parse_number() function when defining the salary variable with in ggplot.
+
+# This line reads in a tab-separated data file with a header naming the columns
+
+salary <- read.table("02-data.tsv", sep = "\t", header = T)
+
+# Load the relevant libraries (Note : "readr" library is essential to make the adjustment)
+
+library(ggplot2); library(readr)
+
+# This code plots labels for each individual at location (x, y)
+
+ggplot(salary, aes(x = Hire.Year, y = parse_number(Salary), label = Name)) + geom_label()
+
+# This displays the salary object
+salary
+
 ```
+
+**Explanation of the graph**
+
+It can be observed that with the experience, Salary increases among the employees. In other words, those who were recruited recently have a lower salary compared to those who were recruited long ago.
+
+```{python}
+# This python code generates the 
+# Import the relevant libraries
+
+import pandas as pd
+import re
+import matplotlib.pyplot as plt
+
+# Load the data file into Python
+
+Data1 = pd.read_table("02-data.tsv", sep= "\t")
+
+print(Data1)  # Print the Dataset
+
+# Removing the $ and "," from the Salary value of the index 0. This returns a string. To make it a number we can use float function.
+
+x = float(re.sub(r"[^\d.]", "", Data1["Salary"][0]))
+
+# Now replace the index 0 with x
+Data1.loc[0, "Salary"] = x
+
+# Plotting
+
+plt.scatter(x=Data1["Hire Year"], y=Data1["Salary"], c= "red", s= 100, )
+plt.xlabel("Hire Year")
+plt.ylabel("Salary")
+plt.title("Scatter Plot of Hire Year vs. Salary")
+plt.grid(True)
+plt.show()
+
+```
+
+
+
