@@ -123,7 +123,7 @@ salary
 
 ------------------------------------------------------------------------
 
-The problem with the data is: The variable "Salary" has an entity that is recorded with a $ sing and a comma which makes it a "String" value.
+**The problem with the data is:** Well, the Y axis seems incorrect. Indeed, It's because the variable "Salary" has an entity [*first one*] that is recorded with a **$ sign** and a **comma** which makes it a "String" value.
 
 Here is how I solved the problem:
 
@@ -155,7 +155,7 @@ salary
 It can be observed that with the experience, Salary increases among the employees. In other words, those who were recruited recently have a lower salary compared to those who were recruited long ago.
 
 ```{python}
-# This python code generates the 
+# This python code fixes the error
 # Import the relevant libraries
 
 import pandas as pd
